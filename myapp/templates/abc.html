@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 		//jquery
+	$('#btn1').click(function(){
+		var msg = $("#txtMsg").val()
+		//alert(msg);
+		$("#showData1").empty()
+		
+		$.ajax({
+			url:'startajax',
+			type:'get',
+			data:{'msg':msg},
+			dataType:'json',
+			success:function(data){
+				//alert(data)
+				
+				for(var k in data){
+					var str = k + '<br>' + data[k];
+				}
+				
+				str += "<br><b>" + data['key'] + "</b>";
+				$("#showData1").html(str);
+			},
+			error:function(){
+				$("#showData1").text("error");
+			}
+		});
+	});
+	
+	$('#btn2').click(function(){
+		$.ajax({
+		//alert('b');
+		url:'goajax',
+		type:'get',
+		dataType:'json',
+		success:function(data){
+			//alert(data);
+			str = '';
+			$.each(data, function(ind, entry){
+				str += entry['irum'] + ", " + entry['nai'] + "<br>"
+			});
+			$("#showData2").html(str);
+		},
+		error:function(){
+			$("#showData2").text("error2");
+		}
+		});			
+	});
+});
+</script>
+</head>
+<body>
+ajax test<br>
+자료 입력 : <input type="text" id="txtMsg">
+<button id="btn1">click1</button>
+<br>
+<div id="showData1">실습 1 결과</div>
+<hr>
+<button id="btn2">click2</button>
+<br>
+<div id="showData2">실습 2 결과</div>
+</body>
+</html>
